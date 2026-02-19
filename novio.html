@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Cuánto quieres a tu novio?</title>
+
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#a18cd1,#fbc2eb);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    max-width:700px;
+    width:90%;
+}
+
+.question{ margin-top:20px; font-weight:bold; }
+
+button{
+    margin-top:20px;
+    padding:15px;
+    width:100%;
+    background:#7b2cbf;
+    color:white;
+    border:none;
+    border-radius:12px;
+}
+
+#final{
+    display:none;
+    position:fixed;
+    inset:0;
+    color:white;
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+.big{ font-size:40px; margin-bottom:20px; }
+.share{ background:#25D366; margin-top:30px; }
+</style>
+</head>
+
+<body>
+
+<div class="container" id="quiz">
+
+<h1>💘 ¿Cuánto quieres a tu novio?</h1>
+
+<form id="form"></form>
+
+<button onclick="calc()">Ver resultado</button>
+</div>
+
+<div id="final">
+<div>
+<div class="big" id="titulo"></div>
+<div id="desc"></div>
+<button class="share" onclick="wa()">Compartir en WhatsApp</button>
+</div>
+</div>
+
+<script>
+const preguntas=[
+"Cuando algo bueno te pasa…",
+"Cuando discuten…",
+"Si tu novio tiene un mal día…",
+"¿Piensas en él cuando no están juntos?",
+"¿Te importa su opinión?",
+"Cuando planeas tu futuro…",
+"¿Te nace darle cariño sin que lo pida?",
+"Si alguien coquetea contigo…",
+"¿Disfrutas el tiempo con él?",
+"¿Por qué sigues con él?"
+];
+
+const opciones=[
+["Es de los primeros a quien se lo cuentas",3,"Después de un rato",2,"A veces ni se entera",0],
+["Quieres arreglarlo pronto",3,"Esperas a que se calme",2,"Te da igual",0],
+["Buscas animarlo",3,"Le das espacio",2,"No te involucras",0],
+["Bastante seguido",3,"A ratos",2,"Casi no",0],
+["Mucho",3,"Solo en cosas importantes",2,"No realmente",0],
+["Lo incluyes",3,"A veces",2,"No",0],
+["Sí",3,"A veces",2,"Casi nunca",0],
+["Dejas claro que tienes novio",3,"Solo si insiste",2,"No haces mucho",0],
+["Siempre",3,"Depende",2,"A veces preferirías otra cosa",0],
+["Porque lo quieres",3,"Porque dudas",2,"Por costumbre",0]
+];
+
+const form=document.getElementById("form");
+
+for(let i=0;i<10;i++){
+let div=document.createElement("div");
+div.className="question";
+div.innerHTML=(i+1)+". "+preguntas[i];
+
+for(let j=0;j<3;j++){
+let label=document.createElement("label");
+label.innerHTML=`<br><input type="radio" name="q${i}" value="${opciones[i][j*2+1]}"> ${opciones[i][j*2]}`;
+div.appendChild(label);
+}
+form.appendChild(div);
+}
+
+let texto="";
+
+function calc(){
+let total=0;
+for(let i=0;i<10;i++){
+let r=document.querySelector(`input[name=q${i}]:checked`);
+if(!r){alert("Contesta todo 😠");return;}
+total+=parseInt(r.value);
+}
+
+let t="",d="",bg="";
+
+if(total<=9){t="Cariño bajo";d="Probablemente es costumbre";bg="#6c757d";}
+else if(total<=18){t="Lo quiere pero no mucho";d="Hay afecto pero dudas";bg="#ffb703";}
+else if(total<=24){t="Sí lo quiere";d="Hay vínculo real";bg="#2a9d8f";}
+else{t="Enamorada nivel novela 💘";d="Es prioridad emocional";bg="#e63946";}
+
+texto=`${t} - ${d} (${total} pts)`;
+
+document.getElementById("quiz").style.display="none";
+let f=document.getElementById("final");
+f.style.display="flex";
+f.style.background=bg;
+titulo.innerText=t;
+desc.innerText=d;
+}
+
+function wa(){
+window.open("https://wa.me/?text="+encodeURIComponent("Hice el test de amor 😂\n"+texto));
+}
+</script>
+
+</body>
+</html>
